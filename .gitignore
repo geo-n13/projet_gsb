@@ -1,0 +1,18 @@
+################################
+# Fichiers relatifs à Intel IJ #
+################################
+
+/.idea/
+/out/
+Gsb.iml
+
+###############################
+# Fichiers relatifs à Eclipse #
+###############################
+
+/.settings/
+/bin/
+.classpath
+.project
+
+
