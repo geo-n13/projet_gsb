@@ -14,5 +14,5 @@ Gsb.iml
 /bin/
 .classpath
 .project
-
+*.md
 
