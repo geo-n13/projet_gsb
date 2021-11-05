@@ -1,10 +1,10 @@
 package gsb.modele.dao;
 
-import gsb.modele.Localite;
-import gsb.modele.Medicament;
 import gsb.modele.Visiteur;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class VisiteurDao {
 
@@ -22,5 +22,21 @@ public class VisiteurDao {
         }
         ConnexionMySql.fermerConnexionBd();
         return unVisiteur;
+    }
+    
+    public static ArrayList<Visiteur> retournerCollectionDesVisiteurs(){
+        ArrayList<Visiteur> collectionDesVisiteurs = new ArrayList<Visiteur>();
+        ResultSet reqSelection = ConnexionMySql.execReqSelection("select MATRICULE from VISITEUR");
+        try{
+            while (reqSelection.next()) {
+                String matriculeVisiteur = reqSelection.getString(1);
+                collectionDesVisiteurs.add(VisiteurDao.rechercher(matriculeVisiteur));
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("erreur retournerCollectionDesVisiteurs()");
+        }
+        return collectionDesVisiteurs;
     }
 }

@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.text.ParseException;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -14,7 +15,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
+import gsb.modele.Medecin;
 import gsb.modele.Visite;
+import gsb.modele.Visiteur;
 import gsb.modele.dao.MedecinDao;
 import gsb.modele.dao.VisiteDao;
 import gsb.modele.dao.VisiteurDao;
@@ -35,8 +38,9 @@ public class JIFVisiteAjouter extends JInternalFrame implements ActionListener{
 	protected JTextField JTReference;
 	protected JFormattedTextField JTDate;
 	protected JTextField JTCommentaire;
-	protected JTextField JTVisiteur;
-	protected JTextField JTMedecin;
+	
+	protected JComboBox<String> JCBVisiteur;
+	protected JComboBox<String> JCBMedecin;
 	
 	protected JButton JBAjouter;
 	
@@ -63,8 +67,16 @@ public class JIFVisiteAjouter extends JInternalFrame implements ActionListener{
 		
 		JTDate = new JFormattedTextField(mask);
 		JTCommentaire = new JTextField();
-		JTVisiteur = new JTextField();
-		JTMedecin = new JTextField();
+		JCBVisiteur = new JComboBox<String>();
+		JCBMedecin = new JComboBox<String>();
+		
+		for(Visiteur visiteur : VisiteurDao.retournerCollectionDesVisiteurs()) {
+			JCBVisiteur.addItem(visiteur.getMatricule());
+		}
+		
+		for(Medecin medecin : MedecinDao.retournerCollectionDesMedecins()) {
+			JCBMedecin.addItem(medecin.getCodeMed());
+		}
 		
 		pTexte.add(JLReference);
 		pTexte.add(JTReference);
@@ -73,9 +85,9 @@ public class JIFVisiteAjouter extends JInternalFrame implements ActionListener{
 		pTexte.add(JLCommentaire);
 		pTexte.add(JTCommentaire);
 		pTexte.add(JLVisiteur);
-		pTexte.add(JTVisiteur);
+		pTexte.add(JCBVisiteur);
 		pTexte.add(JLMedecin);
-		pTexte.add(JTMedecin);
+		pTexte.add(JCBMedecin);
 		
 		JBAjouter = new JButton("Ajouter");
 		JBAjouter.addActionListener(this);
@@ -92,13 +104,13 @@ public class JIFVisiteAjouter extends JInternalFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		if(source == JBAjouter) {
-			if((!JTReference.getText().isEmpty()) && (JTDate.getText().replaceAll(" ", "").length() == 10) && (!JTVisiteur.getText().isEmpty()) && (!JTMedecin.getText().isEmpty())) {
+			if((!JTReference.getText().isEmpty()) && (JTDate.getText().replaceAll(" ", "").length() == 10) && (!JCBVisiteur.getSelectedItem().toString().isEmpty()) && (!JCBMedecin.getSelectedItem().toString().isEmpty())) {
 				
 				String reference = JTReference.getText();
 				String date = JTDate.getText();
 				String commentaire = JTCommentaire.getText();
-				String medecin = JTMedecin.getText();
-				String visiteur = JTVisiteur.getText();
+				String medecin = JCBMedecin.getSelectedItem().toString();
+				String visiteur = JCBVisiteur.getSelectedItem().toString();
 				
 				if(VisiteDao.rechercher(reference) == null) {
 					if(MedecinDao.rechercher(medecin) != null) {
