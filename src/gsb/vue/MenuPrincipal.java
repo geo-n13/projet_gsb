@@ -70,6 +70,9 @@ public class MenuPrincipal extends JFrame implements ActionListener {
         JMenuItem mE2 = new JMenuItem("Ajout Medicaments");
         mE2.addActionListener(this);
         mMedicaments.add(mE2);
+        JMenuItem mE3 = new JMenuItem("Famille Médicaments");
+        mE3.addActionListener(this);
+        mMedicaments.add(mE3);
 
         mVisites = new JMenu("Visites");
         JMenuItem mA1 = new JMenuItem("Consultation Visite");
@@ -104,6 +107,14 @@ public class MenuPrincipal extends JFrame implements ActionListener {
             
             else if(ChoixOption.equals("Consultation Medicament")) {
             	ouvrirFenetre(new JIFMedicamentListe(this));
+            }
+            
+            else if(ChoixOption.equals("Ajout Medicaments")) {
+            	ouvrirFenetre(new JIFMedicamentAjouter());
+            }
+            
+            else if(ChoixOption.equals("Famille Médicaments")) {
+            	ouvrirFenetre(new JIFMedicamentFamille());
             }
             
             else if(ChoixOption.equals("Consultation Visite")) {
