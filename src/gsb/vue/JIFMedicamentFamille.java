@@ -117,6 +117,7 @@ public class JIFMedicamentFamille extends JInternalFrame implements ActionListen
 					data[i][2] = medicament.getComposition();
 					data[i][3] = medicament.getEffets();
 					data[i][4] = medicament.getContreIndication();
+					i++;
 				}
 				DefaultTableModel tableur = new DefaultTableModel(data, columnNames);
 				
