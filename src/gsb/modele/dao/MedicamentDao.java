@@ -23,6 +23,7 @@ public class MedicamentDao {
         ConnexionMySql.fermerConnexionBd();
         return unMedicament;
     }
+        
 
     public static int creer(Medicament unMedicament) {
         String requeteInsertion;
@@ -67,6 +68,38 @@ public class MedicamentDao {
             System.out.println("erreur retournerCollectionDesMedicaments()");
         }
         return collectionDesMedicaments;
+    }
+    
+    public static ArrayList<Medicament> retournerCollectionFamille(String codeFamille){
+        ArrayList<Medicament> collectionFamille = new ArrayList<Medicament>();
+        ResultSet reqSelection = ConnexionMySql.execReqSelection("select MED_DEPOTLEGAL from MEDICAMENT WHERE FAM_CODE='"+codeFamille+"'");
+        try{
+            while (reqSelection.next()) {
+                String codeMedicament = reqSelection.getString(1);
+                collectionFamille.add(MedicamentDao.rechercher(codeMedicament));
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("erreur retournerCollectionDesMedicaments()");
+        }
+        return collectionFamille;
+    }
+    
+    
+    public static ArrayList<String> retournerListeFamille(){
+        ArrayList<String> collectionFamille = new ArrayList<String>();
+        ResultSet reqSelection = ConnexionMySql.execReqSelection("SELECT DISTINCT FAM_CODE FROM MEDICAMENT");
+        try{
+            while (reqSelection.next()) {
+                collectionFamille.add(reqSelection.getString(1));
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("erreur retournerListeFamille()");
+        }
+        return collectionFamille;
     }
 
 
