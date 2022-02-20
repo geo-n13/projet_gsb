@@ -35,8 +35,7 @@ public class JIFMedecin extends JInternalFrame  {
     protected JLabel JLville;
     protected JLabel JLtelephone;
     protected JLabel JLpotentiel;
-    protected JLabel JLspecialite
-            ;
+    protected JLabel JLspecialite;
 
     protected JTextField JTcode;
     protected JTextField JTnom;

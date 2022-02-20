@@ -37,6 +37,7 @@ public class MenuPrincipal extends JFrame implements ActionListener {
     protected JMenu mMedecins;
     protected JMenu mMedicaments;
     protected JMenu mVisites;
+    protected JMenu mVisiteurs;
 
     /**
      *
@@ -70,7 +71,7 @@ public class MenuPrincipal extends JFrame implements ActionListener {
         JMenuItem mE2 = new JMenuItem("Ajout Medicaments");
         mE2.addActionListener(this);
         mMedicaments.add(mE2);
-        JMenuItem mE3 = new JMenuItem("Famille Médicaments");
+        JMenuItem mE3 = new JMenuItem("Famille Mï¿½dicaments");
         mE3.addActionListener(this);
         mMedicaments.add(mE3);
 
@@ -82,9 +83,18 @@ public class MenuPrincipal extends JFrame implements ActionListener {
         mA2.addActionListener(this);
         mVisites.add(mA2);
 
+        mVisiteurs = new JMenu("Visiteurs");
+        JMenuItem mV1 = new JMenuItem("Ajout Visiteur");
+        mV1.addActionListener(this); // installation d'un Ã©couteur d'action
+        mVisiteurs.add(mV1);
+        JMenuItem mV2 = new JMenuItem("Rechercher Visiteur");
+        mV2.addActionListener(this);
+        mVisiteurs.add(mV2);
+
         mbar.add(mMedecins);
         mbar.add(mMedicaments);
         mbar.add(mVisites);
+        mbar.add(mVisiteurs);
         setJMenuBar(mbar);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -113,7 +123,7 @@ public class MenuPrincipal extends JFrame implements ActionListener {
             	ouvrirFenetre(new JIFMedicamentAjouter());
             }
             
-            else if(ChoixOption.equals("Famille Médicaments")) {
+            else if(ChoixOption.equals("Famille Mï¿½dicaments")) {
             	ouvrirFenetre(new JIFMedicamentFamille());
             }
             
@@ -123,6 +133,14 @@ public class MenuPrincipal extends JFrame implements ActionListener {
             
             else if(ChoixOption.equals("Ajout Visite")) {
             	ouvrirFenetre(new JIFVisiteAjouter());
+            }
+
+            else if(ChoixOption.equals("Ajout Visiteur")) {
+                ouvrirFenetre(new JIFVisiteurAjouter());
+            }
+
+            else if(ChoixOption.equals("Rechercher Visiteur")) {
+                ouvrirFenetre(new JIFVisiteurListe());
             }
 
         }
