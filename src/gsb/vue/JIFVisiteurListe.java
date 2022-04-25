@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.lang.invoke.StringConcatFactory;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -20,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
+import com.sun.source.tree.Tree;
 import gsb.modele.Visite;
 import gsb.modele.Visiteur;
 import gsb.modele.dao.VisiteDao;
@@ -64,16 +66,16 @@ public class JIFVisiteurListe extends JInternalFrame implements ActionListener{
 
         //construction panel de la liste
 
-        ArrayList<Visiteur> listeVisites = VisiteurDao.retournerCollectionDesVisiteurs();
+        TreeMap<String, Visiteur> listeVisiteurs = VisiteurDao.recupList();
         String[] columnNames = {"Matricule", "Nom", "Prénom"};
 
         int i = 0;
-        Object[][] data = new Object[listeVisites.size()][3];
+        Object[][] data = new Object[listeVisiteurs.size()][3];
 
-        for(Visiteur visiteur : listeVisites) {
-            data[i][0] = visiteur.getMatricule();
-            data[i][1] = visiteur.getNom();
-            data[i][2] = visiteur.getPrenom();
+        for(String visiteur : listeVisiteurs.keySet()) {
+            data[i][0] = listeVisiteurs.get(visiteur).getMatricule();
+            data[i][1] = listeVisiteurs.get(visiteur).getNom();
+            data[i][2] = listeVisiteurs.get(visiteur).getPrenom();
             i++;
         }
 

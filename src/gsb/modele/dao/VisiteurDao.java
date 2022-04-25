@@ -9,22 +9,38 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.TreeMap;
 
 public class VisiteurDao {
 
-    public static Visiteur rechercher(String codeVisiteur) {
+    public static Visiteur rechercher(String matricule)
+    {
         Visiteur unVisiteur = null;
-        ResultSet reqSelection = ConnexionMySql.execReqSelection("select * from VISITEUR where MATRICULE='"+codeVisiteur+"'");
+        String req = "SELECT * FROM VISITEUR WHERE MATRICULE = '" + matricule + "' LIMIT 1;";
+        ResultSet resultat = ConnexionMySql.execReqSelection(req);
+
         try {
-            if (reqSelection.next()) {
-                unVisiteur = new Visiteur(reqSelection.getString(1), reqSelection.getString(2), reqSelection.getString(3), reqSelection.getString(4), reqSelection.getString(5), reqSelection.getString(6), LocaliteDao.rechercher(reqSelection.getString(7)), "Pas en BDD", reqSelection.getString(8), 0, reqSelection.getString(9), reqSelection.getString(10));
+            if(resultat.next())
+            {
+                String nom = resultat.getString(2);
+                String prenom = resultat.getString(3);
+                String login = resultat.getString(4);
+                String mdp = resultat.getString(5);
+                String adresse = resultat.getString(6);
+                String codePostal = resultat.getString(7);
+                Localite laLocalite = LocaliteDao.rechercher(codePostal);
+                String telephone = "3630";
+                String dateEntree = resultat.getString(8);
+                int prime = 0;
+                String codeUnite = resultat.getString(9);
+                String nomUnite = resultat.getString(10);
+
+                unVisiteur = new Visiteur(matricule, nom, prenom, login, mdp, adresse, laLocalite, telephone, dateEntree, prime, codeUnite, nomUnite);
             }
-        }
-        catch (Exception e) {
-            System.out.println("erreur reqSelection.next() pour la requête - select * from VISITEUR where MATRICULE='"+codeVisiteur+"'");
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        ConnexionMySql.fermerConnexionBd();
+
         return unVisiteur;
     }
     
@@ -42,6 +58,41 @@ public class VisiteurDao {
             System.out.println("erreur retournerCollectionDesVisiteurs()");
         }
         return collectionDesVisiteurs;
+    }
+
+    public static TreeMap<String, Visiteur> recupList()
+    {
+        TreeMap<String, Visiteur> lesVisiteurs = new TreeMap<String, Visiteur>();
+        String req = "SELECT * FROM VISITEUR;";
+        ResultSet resultat = ConnexionMySql.execReqSelection(req);
+
+        try
+        {
+            while(resultat.next())
+            {
+                String matricule = resultat.getString(1);
+                String nom = resultat.getString(2);
+                String prenom = resultat.getString(3);
+                String login = resultat.getString(4);
+                String mdp = resultat.getString(5);
+                String adresse = resultat.getString(6);
+                String codePostal = resultat.getString(7);
+                Localite laLocalite = LocaliteDao.rechercher(codePostal);
+                String telephone = "3630";
+                String dateEntree = resultat.getString(8);
+                int prime = 0;
+                String codeUnite = resultat.getString(9);
+                String nomUnite = resultat.getString(10);
+
+                Visiteur unVisiteur = new Visiteur(matricule, nom, prenom, login, mdp, adresse, laLocalite, telephone, dateEntree, prime, codeUnite, nomUnite);
+                lesVisiteurs.put(matricule, unVisiteur);
+            }
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return lesVisiteurs;
     }
 
     public static boolean ajouterVisiteur(Visiteur unVisiteur) {
